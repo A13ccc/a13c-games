@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Settings</title>
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Add your current favicon link here -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <h1>Website Settings</h1>
+        <form id="settings-form">
+            <label for="backgroundColor">Background Color:</label>
+            <input type="color" id="backgroundColor" name="backgroundColor">
+
+            <label for="siteTitle">Site Title:</label>
+            <input type="text" id="siteTitle" name="siteTitle">
+
+            <label for="favicon">Favicon (URL):</label>
+            <input type="text" id="favicon" name="favicon">
+
+            <!-- Add more settings here -->
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+
+    <script>
+        const settingsForm = document.getElementById('settings-form');
+        const backgroundColorInput = document.getElementById('backgroundColor');
+        const siteTitleInput = document.getElementById('siteTitle');
+        const faviconInput = document.getElementById('favicon');
+
+        settingsForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get user inputs
+            const backgroundColor = backgroundColorInput.value;
+            const siteTitle = siteTitleInput.value;
+            const faviconUrl = faviconInput.value;
+
+            // Update website settings (you can implement this as needed)
+            updateBackgroundColor(backgroundColor);
+            updateSiteTitle(siteTitle);
+            updateFavicon(faviconUrl);
+
+            alert('Settings saved successfully!');
+        });
+
+        // Implement functions to update website settings based on user input
+        function updateBackgroundColor(color) {
+            document.body.style.backgroundColor = color;
+        }
+
+        function updateSiteTitle(title) {
+            document.title = title;
+        }
+
+        function updateFavicon(url) {
+            const faviconLink = document.querySelector('link[rel="icon"]');
+            if (faviconLink) {
+                faviconLink.href = url;
+            }
+        }
+    </script>
+</body>
+</html>
