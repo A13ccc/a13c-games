@@ -20,18 +20,38 @@
 		  justify-content: center;
 		}
 		
-		.spinner {
-		  border: 16px solid #f3f3f3;
-		  border-radius: 50%;
-		  border-top: 16px solid #3498db;
-		  width: 120px;
-		  height: 120px;
-		  animation: spin 2s linear infinite;
+		.loading-content {
+		    text-align: center;
 		}
-		
-		@keyframes spin {
-		  0% { transform: rotate(0deg); }
-		  100% { transform: rotate(360deg); }
+
+		.logo {
+		    width: 150px;
+		    margin-bottom: 20px;
+		}
+
+		.progress-bar {
+		    width: 80%;
+		    background-color: #444;
+		    border-radius: 50px;
+		    overflow: hidden;
+		    height: 15px;
+		    margin: 0 auto;
+		}
+
+		body.loading #loading-screen {
+		    display: flex;
+		}
+
+		body:not(.loading) #loading-screen {
+		    display: none;
+		}
+
+		.progress {
+		    height: 100%;
+		    width: 0;
+		    background-color: #357a1a;
+		    border-radius: 50px;
+		    transition: width 0.4s ease;
 		}
 		
 		.search-container {
@@ -57,7 +77,12 @@
 		}
 	</style>
 	<div id="loading-screen">
-	 	<div class="spinner"></div>
+	    <div class="loading-content">
+	        <img src="/site_assets/logo.png" alt="Site Logo" class="logo">
+	        <div class="progress-bar">
+	            <div class="progress"></div>
+	        </div>
+	    </div>
 	</div>
 </head>
 <header>
@@ -72,9 +97,6 @@
         </nav>
 </header>
 <body>
-
-  <br>
-
   <a href="https://padlet.com/quamaurisd10/games-9iikijxbxzj5" target="_blank"> Click me for games for Ruffle</a><br><a href="https://forms.gle/SvEy31Dqi9GLQgYv9" target="_blank" style="color: #357a1a; font-weight: 900;">Green Form</a><br><a href="https://forms.gle/vYtjWo76zVABdUCv6" target="_blank" style="color: grey; font-weight: 900;">Grey Form</a>
 	<div class="card-container">
 		<div onclick="location.href='/game_assets/game_files/10-minutes-till-dawn/10-minutes-till-dawn.html';" target="_blank" class="card image-overlay">
@@ -2249,9 +2271,24 @@
 		</div>
 	</div>
 	<script>
-    window.addEventListener('load', function() {
-      document.getElementById('loading-screen').style.display = 'none';
-    });
+    document.addEventListener("DOMContentLoaded", function() {
+    document.body.classList.add('loading');
+
+    let progressBar = document.querySelector(".progress");
+    let progress = 0;
+
+    function simulateProgress() {
+        if (progress < 100) {
+            progress += Math.random() * 10; // Simulates the loading process
+            progressBar.style.width = Math.min(progress, 100) + "%";
+            setTimeout(simulateProgress, 200);
+        } else {
+            document.body.classList.remove('loading');
+        }
+    }
+
+    simulateProgress();
+	});
 	</script>
 	<script>
     function searchFunction() {
