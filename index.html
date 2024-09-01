@@ -25,12 +25,12 @@
 		}
 
 		.logo {
-		    width: 150px;
-		    margin-bottom: 20px;
+		    width: 33%;
+		    margin-bottom: 0;
 		}
 
 		.progress-bar {
-		    width: 200%;
+		    width: 40%;
 		    background-color: #444;
 		    border-radius: 50px;
 		    overflow: hidden;
@@ -78,7 +78,7 @@
 	</style>
 	<div id="loading-screen">
 	    <div class="loading-content">
-	        <img src="/site_assets/logo.png" alt="Site Logo" class="logo">
+	        <img src="https://raw.githubusercontent.com/A13ccc/a13c-games/ec866a0bbfaf4903f8ea8170df4502b1acfcdacd/site_assets/logo.png" alt="Site Logo" class="logo">
 	        <div class="progress-bar">
 	            <div class="progress"></div>
 	        </div>
@@ -2279,11 +2279,18 @@
 
     function simulateProgress() {
         if (progress < 100) {
-            progress += Math.random() * 10; // Simulates the loading process
+            progress += Math.random() * 10
             progressBar.style.width = Math.min(progress, 100) + "%";
             setTimeout(simulateProgress, 200);
         } else {
             document.body.classList.remove('loading');
+			setTimeout(() => {
+				alert("Hey, if there are any games you want me to add please click the link in the green note.\nIf there are any features you want me to fix/add please click the link in the grey note.\nHappy gaming :)");
+
+			}, 250);
+
+
+
         }
     }
 
@@ -2308,6 +2315,22 @@
         }
       }
     }
+	</script>
+	<script>
+		var coll = document.getElementsByClassName("collapsible");
+		var i;
+
+		for (i = 0; i < coll.length; i++) {
+			coll[i].addEventListener("click", function() {
+				this.classList.toggle("active");
+				var content = this.nextElementSibling;
+				if (content.style.display === "block") {
+					content.style.display = "none";
+				} else {
+					content.style.display = "block";
+				}
+			});
+		}
 	</script>
 </body>
 
