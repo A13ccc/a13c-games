@@ -99,7 +99,7 @@
                 <li><a href="about.html">About Me (WIP)</a></li>
                 <li><a href="settings.html">Settings (Dont Work)</a></li>
                 <li><a href="unblocker.html">Unblocker</a></li>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="#" style="background-color: #000;">Home</a></li>
             </ul>
         </nav>
 </header>
@@ -2278,31 +2278,30 @@
 		</div>
 	</div>
 	<script>
-    document.addEventListener("DOMContentLoaded", function() {
-    document.body.classList.add('loading');
+		// Select all images on the page
+	const images = document.querySelectorAll('img');
+	let imagesLoaded = 0;
 
-    let progressBar = document.querySelector(".progress");
-    let progress = 0;
+	// Function to check if all images are loaded
+	function imageLoaded() {
+	    imagesLoaded++;
+	    if (imagesLoaded === images.length) {
+	    	document.body.classList.remove('loading');
+	    	setTimeout(() => {
+	        	alert("Hey, if there are any games you want me to add please click the link in the green note.\nIf there are any features you want me to fix/add please click the link in the grey note.\nHappy gaming :)");
+	    	}, 250);
+	    }
+	}
 
-    function simulateProgress() {
-        if (progress < 100) {
-            progress += Math.random() * 10
-            progressBar.style.width = Math.min(progress, 100) + "%";
-            setTimeout(simulateProgress, 200);
-        } else {
-            document.body.classList.remove('loading');
-			setTimeout(() => {
-				alert("Hey, if there are any games you want me to add please click the link in the green note.\nIf there are any features you want me to fix/add please click the link in the grey note.\nHappy gaming :)");
-
-			}, 250);
-
-
-
-        }
-    }
-
-    simulateProgress();
+	// Add load event listeners to each image
+	images.forEach(image => {
+	    if (image.complete) {
+	        imageLoaded();
+	    } else {
+	        image.addEventListener('load', imageLoaded);
+	    }
 	});
+
 	</script>
 	<script>
     function searchFunction() {
