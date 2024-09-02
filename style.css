@@ -25,14 +25,13 @@ a {
   position: absolute;
   top: 10;
   left: 10;
-  width: 89%;
-  height: 83%;
+  width: 84%;
+  height: 77%;
   background-color: rgba(60, 60, 60, 0.35); /* Grey overlay with 50% opacity */
   z-index: 1; /* Place the overlay above the image */
 }
 
-.card,
-.card2 {
+.card {
   transition: transform 0.3s;
   text-align: center;
   color: #ffffff;
@@ -48,12 +47,11 @@ a {
   margin: 10px;
 }
 
-.card,
-.card2 {
+.card {
   cursor: pointer;
   border-radius: 20px; /* Smaller border radius for a more modern look */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 50); /* Subtle box shadow */
-  width: 300px;
+  width: 200px;
   margin: 10px;
   background-color: #333; /* Dark grey background */
   padding: 20px;
