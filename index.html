@@ -2278,28 +2278,23 @@
 		</div>
 	</div>
 	<script>
-		// Select all images on the page
-	const images = document.querySelectorAll('img');
-	let imagesLoaded = 0;
+	document.addEventListener("DOMContentLoaded", function() {
+    document.body.classList.add('loading');
 
-	// Function to check if all images are loaded
-	function imageLoaded() {
-	    imagesLoaded++;
-	    if (imagesLoaded === images.length) {
-	    	document.body.classList.remove('loading');
-	    	setTimeout(() => {
-	        	alert("Hey, if there are any games you want me to add please click the link in the green note.\nIf there are any features you want me to fix/add please click the link in the grey note.\nHappy gaming :)");
-	    	}, 250);
-	    }
-	}
+    let progressBar = document.querySelector(".progress");
+    let progress = 0;
 
-	// Add load event listeners to each image
-	images.forEach(image => {
-	    if (image.complete) {
-	        imageLoaded();
-	    } else {
-	        image.addEventListener('load', imageLoaded);
-	    }
+    function simulateProgress() {
+        if (progress < 100) {
+            progress += Math.random() * 10;
+            progressBar.style.width = Math.min(progress, 100) + "%";
+            setTimeout(simulateProgress, 200);
+        } else {
+            document.body.classList.remove('loading');
+        }
+    }
+
+    simulateProgress();
 	});
 
 	</script>
