@@ -9,20 +9,44 @@
 	<title>Alec's Games</title>
 	<link rel="shortcut icon" href="favicon.ico">
 	<style>
+		/* Modern Loading Screen */
 		#loading-screen {
 		  position: fixed;
 		  width: 100%;
 		  height: 100%;
-		  background: #15243d;
+		  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+		  background-size: 400% 400%;
+		  animation: gradientShift 15s ease infinite;
 		  z-index: 9999;
 		  display: flex;
 		  align-items: center;
 		  justify-content: center;
 		}
 
+		@keyframes gradientShift {
+		  0% { background-position: 0% 50%; }
+		  50% { background-position: 100% 50%; }
+		  100% { background-position: 0% 50%; }
+		}
+
 		#loading-screen img {
 		    margin: 0;
 		    padding: 0;
+		    animation: pulse 2s ease-in-out infinite;
+		    filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.6));
+		}
+
+		@keyframes pulse {
+		  0%, 100% {
+		    transform: scale(1);
+		    opacity: 1;
+		    filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.6));
+		  }
+		  50% {
+		    transform: scale(1.05);
+		    opacity: 0.9;
+		    filter: drop-shadow(0 0 50px rgba(102, 126, 234, 0.8));
+		  }
 		}
 
 		.loading-content {
@@ -31,17 +55,22 @@
 
 		.logo {
 		    width: 30%;
-		    margin-bottom: 0;
+		    max-width: 300px;
+		    margin-bottom: 30px;
 		}
 
 		.progress-bar {
-		    width: 40%;
-		    background-color: #444;
+		    width: 60%;
+		    max-width: 500px;
+		    background: rgba(255, 255, 255, 0.1);
+		    backdrop-filter: blur(10px);
 		    border-radius: 50px;
 		    overflow: hidden;
-		    height: 15px;
+		    height: 8px;
 		    margin: 0 auto;
-			margin-top: 10px;
+		    margin-top: 20px;
+		    border: 1px solid rgba(255, 255, 255, 0.2);
+		    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 		}
 
 		body.loading #loading-screen {
@@ -55,32 +84,64 @@
 		.progress {
 		    height: 100%;
 		    width: 0;
-		    background-color: #344FB4;
+		    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 		    border-radius: 50px;
 		    transition: width 0.4s ease;
+		    box-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+		    position: relative;
+		    overflow: hidden;
+		}
+
+		.progress::after {
+		  content: '';
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  bottom: 0;
+		  right: 0;
+		  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+		  animation: shimmer 2s infinite;
+		}
+
+		@keyframes shimmer {
+		  0% { transform: translateX(-100%); }
+		  100% { transform: translateX(100%); }
 		}
 
 		.search-container {
 		  position: relative;
-		  width: 200px; /* Adjust the width as needed */
+		  width: 100%;
+		  max-width: 500px;
+		  margin: 0 auto;
 		}
 
 		#searchBar {
-		  width: 20%;
-		  padding: 10px 20px;
-		  border-radius: 25px; /* Rounded edges */
-		  border: 2px solid #000; /* Border with black color */
-		  background-color: #3e4c7f; /* Blue background color */
-		  color: #000; /* Text color */
-		  font-size: 18px; /* Font size */
-		  outline: none; /* Remove outline */
-		  text-align: center; /* Center the search icon text */
-		  margin-top: 10px;
-		  margin-bottom: 10px;
+		  width: 100%;
+		  max-width: 500px;
+		  padding: 15px 30px;
+		  border-radius: 50px;
+		  border: 2px solid rgba(255, 255, 255, 0.2);
+		  background: rgba(255, 255, 255, 0.08);
+		  backdrop-filter: blur(10px);
+		  color: #ffffff;
+		  font-size: 18px;
+		  outline: none;
+		  text-align: center;
+		  margin: 20px auto;
+		  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+		  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+		  display: block;
+		}
+
+		#searchBar:focus {
+		  border: 2px solid rgba(102, 126, 234, 0.6);
+		  background: rgba(255, 255, 255, 0.12);
+		  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+		  transform: translateY(-2px);
 		}
 
 		#searchBar::placeholder {
-		  color: #000; /* Black color for the search icon */
+		  color: rgba(184, 184, 212, 0.8);
 		  text-align: center;
 		}
 	</style>
@@ -99,7 +160,7 @@
                 <li><a href="about.html">About Me (WIP)</a></li>
                 <li><a href="settings.html">Settings (Dont Work)</a></li>
                 <li><a href="unblocker.html">Unblocker</a></li>
-                <li><a href="#" style="background-color: #000;">Home</a></li>
+                <li><a href="#" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: 1px solid rgba(255, 255, 255, 0.3);">Home</a></li>
             </ul>
         </nav>
 </header>
