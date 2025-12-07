@@ -3,68 +3,604 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Settings</title>
-    <!-- Link to your external CSS file -->
+    <title>Settings - Alec's Games</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Add your current favicon link here -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-    <div class="container">
-        <h1>Website Settings</h1>
-        <form id="settings-form">
-            <label for="backgroundColor">Background Color:</label>
-            <input type="color" id="backgroundColor" name="backgroundColor">
-
-            <label for="siteTitle">Site Title:</label>
-            <input type="text" id="siteTitle" name="siteTitle">
-
-            <label for="favicon">Favicon (URL):</label>
-            <input type="text" id="favicon" name="favicon">
-
-            <!-- Add more settings here -->
-
-            <button type="submit">Save Changes</button>
-        </form>
-    </div>
-
-    <script>
-        const settingsForm = document.getElementById('settings-form');
-        const backgroundColorInput = document.getElementById('backgroundColor');
-        const siteTitleInput = document.getElementById('siteTitle');
-        const faviconInput = document.getElementById('favicon');
-
-        settingsForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            // Get user inputs
-            const backgroundColor = backgroundColorInput.value;
-            const siteTitle = siteTitleInput.value;
-            const faviconUrl = faviconInput.value;
-
-            // Update website settings (you can implement this as needed)
-            updateBackgroundColor(backgroundColor);
-            updateSiteTitle(siteTitle);
-            updateFavicon(faviconUrl);
-
-            alert('Settings saved successfully!');
-        });
-
-        // Implement functions to update website settings based on user input
-        function updateBackgroundColor(color) {
-            document.body.style.backgroundColor = color;
+    <link rel="shortcut icon" href="favicon.ico">
+    <style>
+        .settings-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
-        function updateSiteTitle(title) {
-            document.title = title;
+        .settings-container h1 {
+            margin-top: 0;
+            margin-bottom: 40px;
+            text-align: center;
         }
 
-        function updateFavicon(url) {
-            const faviconLink = document.querySelector('link[rel="icon"]');
-            if (faviconLink) {
-                faviconLink.href = url;
+        .settings-section {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .settings-section:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .settings-section h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .setting-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .setting-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-label {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .setting-label h3 {
+            font-size: 16px;
+            margin: 0 0 5px 0;
+            color: var(--text-primary);
+        }
+
+        .setting-label p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transition: 0.4s;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        input:checked + .toggle-slider {
+            background: var(--primary-gradient);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        /* Select Dropdown */
+        .setting-select {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .setting-select:hover,
+        .setting-select:focus {
+            background: rgba(255, 255, 255, 0.12);
+            border: 2px solid rgba(102, 126, 234, 0.6);
+            outline: none;
+        }
+
+        .setting-select option {
+            background: #1a1742;
+            color: var(--text-primary);
+        }
+
+        /* Input Field */
+        .setting-input {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .setting-input:hover,
+        .setting-input:focus {
+            background: rgba(255, 255, 255, 0.12);
+            border: 2px solid rgba(102, 126, 234, 0.6);
+            outline: none;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(245, 87, 108, 0.5);
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(56, 239, 125, 0.4);
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            z-index: 1001;
+            font-weight: 600;
+        }
+
+        .success-message.show {
+            transform: translateX(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .settings-container {
+                margin: 20px;
+                padding: 25px;
+            }
+
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .setting-label {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .setting-select,
+            .setting-input {
+                width: 100%;
+            }
+
+            .btn-container {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .success-message {
+                right: 20px;
+                left: 20px;
+                text-align: center;
             }
         }
+
+        @media (max-width: 480px) {
+            .settings-container {
+                padding: 20px;
+            }
+
+            .settings-section {
+                padding: 20px;
+            }
+
+            .setting-item {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Me (WIP)</a></li>
+                <li><a href="settings.html" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: 1px solid rgba(255, 255, 255, 0.3);">Settings</a></li>
+                <li><a href="unblocker.html">Unblocker</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="settings-container">
+            <h1>⚙️ Settings</h1>
+
+            <!-- Appearance Settings -->
+            <div class="settings-section">
+                <h2>🎨 Appearance</h2>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <h3>Theme</h3>
+                        <p>Choose your preferred color scheme</p>
+                    </div>
+                    <select id="theme-select" class="setting-select">
+                        <option value="default">Default Purple</option>
+                        <option value="dark-blue">Dark Blue</option>
+                        <option value="sunset">Sunset</option>
+                        <option value="forest">Forest Green</option>
+                        <option value="ocean">Ocean Blue</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <h3>Reduce Animations</h3>
+                        <p>Minimize motion and animations for better performance</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="reduced-motion">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <h3>Card Animations</h3>
+                        <p>Enable rotating border effects on game cards</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="card-animations" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Display Settings -->
+            <div class="settings-section">
+                <h2>🖥️ Display</h2>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <h3>Games Per Row</h3>
+                        <p>Control how many games display in a row (desktop only)</p>
+                    </div>
+                    <select id="games-per-row" class="setting-select">
+                        <option value="auto">Auto</option>
+                        <option value="2">2 Games</option>
+                        <option value="3">3 Games</option>
+                        <option value="4">4 Games</option>
+                        <option value="5">5 Games</option>
+                        <option value="6">6 Games</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <h3>Show Scroll to Top Button</h3>
+                        <p>Display a button to quickly scroll back to the top</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="scroll-top-btn" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Navigation Settings -->
+            <div class="settings-section">
+                <h2>🧭 Navigation</h2>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <h3>Auto-Hide Navigation</h3>
+                        <p>Hide the navbar when scrolling down, show when scrolling up</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="auto-hide-nav" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <h3>Sticky Navigation</h3>
+                        <p>Keep the navbar visible at the top of the page</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="sticky-nav" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Performance Settings -->
+            <div class="settings-section">
+                <h2>⚡ Performance</h2>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <h3>Background Animation</h3>
+                        <p>Animated gradient background (may affect performance)</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="bg-animation" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <h3>Glassmorphism Effects</h3>
+                        <p>Frosted glass blur effects (may affect performance)</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="glass-effects" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Customization -->
+            <div class="settings-section">
+                <h2>✨ Customization</h2>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <h3>Custom Site Title</h3>
+                        <p>Change the name displayed in your browser tab</p>
+                    </div>
+                    <input type="text" id="site-title" class="setting-input" placeholder="Alec's Games">
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="btn-container">
+                <button class="btn btn-primary" id="save-btn">Save Settings</button>
+                <button class="btn btn-secondary" id="reset-btn">Reset to Defaults</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="success-message" id="success-message">
+        ✓ Settings saved successfully!
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Load settings from localStorage
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('gamesSiteSettings') || '{}');
+
+            // Load theme
+            if (settings.theme) {
+                document.getElementById('theme-select').value = settings.theme;
+            }
+
+            // Load toggles
+            if (settings.reducedMotion !== undefined) {
+                document.getElementById('reduced-motion').checked = settings.reducedMotion;
+            }
+            if (settings.cardAnimations !== undefined) {
+                document.getElementById('card-animations').checked = settings.cardAnimations;
+            }
+            if (settings.scrollTopBtn !== undefined) {
+                document.getElementById('scroll-top-btn').checked = settings.scrollTopBtn;
+            }
+            if (settings.autoHideNav !== undefined) {
+                document.getElementById('auto-hide-nav').checked = settings.autoHideNav;
+            }
+            if (settings.stickyNav !== undefined) {
+                document.getElementById('sticky-nav').checked = settings.stickyNav;
+            }
+            if (settings.bgAnimation !== undefined) {
+                document.getElementById('bg-animation').checked = settings.bgAnimation;
+            }
+            if (settings.glassEffects !== undefined) {
+                document.getElementById('glass-effects').checked = settings.glassEffects;
+            }
+
+            // Load games per row
+            if (settings.gamesPerRow) {
+                document.getElementById('games-per-row').value = settings.gamesPerRow;
+            }
+
+            // Load site title
+            if (settings.siteTitle) {
+                document.getElementById('site-title').value = settings.siteTitle;
+            }
+        }
+
+        // Save settings to localStorage
+        function saveSettings() {
+            const settings = {
+                theme: document.getElementById('theme-select').value,
+                reducedMotion: document.getElementById('reduced-motion').checked,
+                cardAnimations: document.getElementById('card-animations').checked,
+                gamesPerRow: document.getElementById('games-per-row').value,
+                scrollTopBtn: document.getElementById('scroll-top-btn').checked,
+                autoHideNav: document.getElementById('auto-hide-nav').checked,
+                stickyNav: document.getElementById('sticky-nav').checked,
+                bgAnimation: document.getElementById('bg-animation').checked,
+                glassEffects: document.getElementById('glass-effects').checked,
+                siteTitle: document.getElementById('site-title').value
+            };
+
+            localStorage.setItem('gamesSiteSettings', JSON.stringify(settings));
+            applySettingsPreview(settings);
+            showSuccessMessage();
+        }
+
+        // Apply settings preview
+        function applySettingsPreview(settings) {
+            // Apply theme
+            const root = document.documentElement;
+            if (settings.theme === 'dark-blue') {
+                root.style.setProperty('--primary-gradient', 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)');
+            } else if (settings.theme === 'sunset') {
+                root.style.setProperty('--primary-gradient', 'linear-gradient(135deg, #ff6b6b 0%, #feca57 100%)');
+            } else if (settings.theme === 'forest') {
+                root.style.setProperty('--primary-gradient', 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)');
+            } else if (settings.theme === 'ocean') {
+                root.style.setProperty('--primary-gradient', 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)');
+            } else {
+                root.style.setProperty('--primary-gradient', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)');
+            }
+
+            // Apply sticky nav
+            const header = document.querySelector('header');
+            if (header) {
+                header.style.position = settings.stickyNav ? 'sticky' : 'relative';
+            }
+
+            // Apply site title
+            if (settings.siteTitle) {
+                document.title = settings.siteTitle;
+            }
+
+            // Apply background animation
+            if (!settings.bgAnimation) {
+                document.body.style.animation = 'none';
+                document.body.style.backgroundPosition = '0% 50%';
+            } else {
+                document.body.style.animation = 'gradientShift 15s ease infinite';
+            }
+        }
+
+        // Reset to defaults
+        function resetSettings() {
+            if (confirm('Are you sure you want to reset all settings to defaults?')) {
+                localStorage.removeItem('gamesSiteSettings');
+                location.reload();
+            }
+        }
+
+        // Show success message
+        function showSuccessMessage() {
+            const message = document.getElementById('success-message');
+            message.classList.add('show');
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+
+        // Event listeners
+        document.getElementById('save-btn').addEventListener('click', saveSettings);
+        document.getElementById('reset-btn').addEventListener('click', resetSettings);
+
+        // Live preview for theme changes
+        document.getElementById('theme-select').addEventListener('change', function() {
+            const settings = { theme: this.value };
+            applySettingsPreview(settings);
+        });
+
+        // Load settings on page load
+        loadSettings();
+        applySettingsPreview(JSON.parse(localStorage.getItem('gamesSiteSettings') || '{}'));
     </script>
 </body>
 </html>
